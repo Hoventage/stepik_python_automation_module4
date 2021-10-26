@@ -10,9 +10,18 @@ class BasePage:
     def open(self):
         self.browser.get(self.url)
 
-    def is_element_present(self, how, what):
+    def is_element_present(self, selector_type, selector):
         try:
-            self.browser.find_element(how, what)
+            self.browser.find_element(selector_type, selector)
         except exceptions.NoSuchElementException:
             return False
         return True
+
+    def does_url_contains_substring(self, url):
+        current_url = self.browser.current_url
+        if url in current_url:
+            return True
+        else:
+            return False
+
+
