@@ -1,12 +1,8 @@
-from selenium.webdriver.common.by import By
-
-
-def go_to_login_page(browser):
-    login_link = browser.find_element(By.ID, "login_link")
-    login_link.click()
+from .pages.main_page import MainPage
 
 
 def test_guest_can_go_to_login_page(browser):
     link = "http://selenium1py.pythonanywhere.com/"
-    browser.get(link)
-    go_to_login_page(browser)
+    main_page = MainPage(browser, link)
+    main_page.open()
+    main_page.go_to_login_page()
