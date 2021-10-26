@@ -1,5 +1,3 @@
-from selenium.common.exceptions import NoSuchElementException
-
 from .base_page import BasePage
 from .locators import LoginPageLocators
 
