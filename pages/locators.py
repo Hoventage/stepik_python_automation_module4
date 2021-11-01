@@ -5,6 +5,7 @@ class BasePageLocators:
     LOGIN_LINK = (By.ID, 'login_link')
     LOGIN_LINK_INVALID = (By.ID, 'login_link_inc')
     BASKET_BUTTON = (By.CSS_SELECTOR, ".btn-group [href*='basket']")
+    USER_ICON = (By.CLASS_NAME, "icon-user")
 
 
 class LoginPageLocators:

@@ -1,5 +1,8 @@
+import time
+
 import pytest
 
+from .pages.base_page import BasePage
 from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
 from .pages.product_page import ProductPage
@@ -66,3 +69,35 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     basket_page = BasketPage(browser, link)
     basket_page.should_be_no_goods()
     basket_page.should_be_empty_basket()
+
+
+class TestUserAddToBasketFromProductPage:
+    link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+
+    @pytest.fixture(scope='function')
+    def setup(self, browser):
+        time_for_credentionals = str(time.time())
+        email = time_for_credentionals + "@fakemail.org"
+        password = 'test_' + time_for_credentionals
+
+        base_page = BasePage(browser, self.link)
+        base_page.open()
+        base_page.go_to_login_page()
+        login_page = LoginPage(browser, self.link)
+        login_page.should_be_login_page()
+        login_page.register_new_user(email=email, password=password)
+        base_page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser, setup):
+        product_page = ProductPage(browser, self.link)
+        product_page.open()
+        product_page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser, setup):
+        product_page = ProductPage(browser, self.link)
+        product_page.open()
+        product_page.add_item_to_basket()
+        product_name = product_page.get_product_name()
+        product_price = product_page.get_product_price()
+        product_page.should_add_correct_product(product_name)
+        product_page.should_increase_basket_total_price_correctly(product_price)

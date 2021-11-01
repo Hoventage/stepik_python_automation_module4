@@ -72,3 +72,7 @@ class BasePage:
 
         assert self.browser.find_element(*BasketPageLocators.PAGE_TITLE), \
             'This is not a basket page!'
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
